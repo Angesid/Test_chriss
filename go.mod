@@ -1,4 +1,4 @@
-module ssl.gr/Chriss
+module github.com/Angesid/Test_chriss
 
 go 1.18
 

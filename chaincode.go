@@ -2,8 +2,7 @@ package main
 
 import (
 	"log"
-    //change repository
-	"github.com/Angesid/Test_chriss"
+   	"github.com/Angesid/Test_chriss"
 	"github.com/hyperledger/fabric-contract-api-go/contractapi"
 )
 

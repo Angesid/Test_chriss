@@ -499,8 +499,8 @@ class AssetTransfer extends Contract {
 
 
 
-    async ReadAlert(ctx, id, timestamp) {
-        const alertJSON = await ctx.stub.getState(id, timestamp); // get the asset from chaincode state
+    async ReadAlert(ctx, id) {
+        const alertJSON = await ctx.stub.getState(id); // get the asset from chaincode state
         if (!alertJSON || alertJSON.length === 0) {
             throw new Error(`The alert ${id} does not exist`);
         }
@@ -515,35 +515,7 @@ class AssetTransfer extends Contract {
         return glossaryJSON.toString();
     }
 
-    // UpdateAsset updates an existing asset in the world state with provided parameters.
-    async UpdateAsset(ctx, id, color, size, owner, appraisedValue) {
-        const exists = await this.AssetExists(ctx, id);
-        if (!exists) {
-            throw new Error(`The asset ${id} does not exist`);
-        }
-
-        // overwriting original asset with new asset
-        const updatedAsset = {
-            ID: id,
-            Color: color,
-            Size: size,
-            Owner: owner,
-            AppraisedValue: appraisedValue,
-        };
-        // we insert data in alphabetic order using 'json-stringify-deterministic' and 'sort-keys-recursive'
-        return ctx.stub.putState(id, Buffer.from(stringify(sortKeysRecursive(updatedAsset))));
-    }
-
-    // DeleteAsset deletes an given asset from the world state.
-    async DeleteAsset(ctx, id) {
-        const exists = await this.AssetExists(ctx, id);
-        if (!exists) {
-            throw new Error(`The asset ${id} does not exist`);
-        }
-        return ctx.stub.deleteState(id);
-    }
-
-    // AssetExists returns true when asset with given ID exists in world state.
+       // AssetExists returns true when asset with given ID exists in world state.
     async AssetExists(ctx, id) {
         const assetJSON = await ctx.stub.getState(id);
         return assetJSON && assetJSON.length > 0;
